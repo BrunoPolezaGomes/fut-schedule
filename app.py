@@ -219,3 +219,6 @@ def explore():
     prev_url = url_for('explore', page=posts.prev_num) if posts.has_prev else None
     return render_template('index.html', title='Explore', posts=posts.items, next_url=next_url, prev_url=prev_url)
 
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port='80', debug=True)
