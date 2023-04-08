@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h1>Historico de Partidas</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Data</th>
+                <th>Adversário</th>
+                <th>Gols a Favor</th>
+                <th>Gols Contra</th>
+                <th>Presença</th>
+                <th>Gols Marcados</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for game in games %}
+            <tr>
+                <td>{{ game.date.strftime('%d/%m/%Y') }}</td>
+                <td>{{ game.opponent }}</td>
+                <td>{{ game.our_goals }}</td>
+                <td>{{ game.opponent_goals }}</td>
+                <td>{{ game.attendance }}</td>
+                <td>{{ game.goals_scored }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

@@ -1,0 +1,6 @@
+Flask==2.0.2
+mysql-connector-python==8.0.25
+bcrypt==3.2.0
+python-dotenv==0.19.0
+Flask-WTF==0.15.1
+Flask-Login==0.5.0

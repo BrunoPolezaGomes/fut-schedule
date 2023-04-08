@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Garra Vermelha - Home</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</head>
+
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('home') }}">Home</a></li>
+                {% if not session.logged_in %}
+                <li><a href="{{ url_for('login') }}">Login</a></li>
+                <li><a href="{{ url_for('register') }}">Cadastro</a></li>
+                {% endif %}
+                {% if session.logged_in %}
+                <li><a href="{{ url_for('user_settings') }}">Configurações</a></li>
+                <li><a href="{{ url_for('matches') }}">Partidas</a></li>
+                <li><a href="{{ url_for('finance') }}">Financeiro</a></li>
+                {% if session.admin %}
+                <li><a href="{{ url_for('admin_panel') }}">Admin</a></li>
+                {% endif %}
+                <li><a href="{{ url_for('logout') }}">Sair</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <h1>Garra Vermelha</h1>
+        {% if not session.logged_in %}
+        <h2>Bem-vindo ao nosso site!</h2>
+        {% else %}
+        <h2>Bem-vindo, {{ session.username }}!</h2>
+        {% endif %}
+        {% if session.logged_in %}
+        <p>Você está logado como {{ session.username }}.</p>
+        {% endif %}
+        {% if session.admin %}
+        <p>Você é administrador.</p>
+        {% endif %}
+        <p>Este é o site oficial do time Garra Vermelha. Aqui você pode:</p>
+        <ul>
+            <li>Visualizar informações do time</li>
+            <li>Acompanhar as partidas do time</li>
+            <li>Gerenciar suas informações pessoais</li>
+            {% if session.admin %}
+            <li>Gerenciar informações do time</li>
+            <li>Gerenciar o financeiro do time</li>
+            {% endif %}
+        </ul>
+    </main>
+</body>
+
+</html>

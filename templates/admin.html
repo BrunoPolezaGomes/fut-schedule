@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Garra Vermelha - Admin</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+    <header>
+        <h1>Garra Vermelha</h1>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/config">Configurações</a></li>
+                <li><a href="/logout">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <h2>Área do Administrador</h2>
+        <h3>Usuários para aprovação:</h3>
+        {% for user in users %}
+        <div class="user">
+            <p>{{ user.username }}</p>
+            <p>{{ user.email }}</p>
+            <p>{{ user.name }}</p>
+            <p>{{ user.position }}</p>
+            <p>{{ user.shirt_number }}</p>
+            <p>{{ user.shoe_size }}</p>
+            <p>{{ user.preferred_foot }}</p>
+            <p><a href="/approve/{{ user.id }}">Aprovar</a></p>
+        </div>
+        {% endfor %}
+        <h3>Usuários aprovados:</h3>
+        {% for user in approved_users %}
+        <div class="user">
+            <p>{{ user.username }}</p>
+            <p>{{ user.email }}</p>
+            <p>{{ user.name }}</p>
+            <p>{{ user.position }}</p>
+            <p>{{ user.shirt_number }}</p>
+            <p>{{ user.shoe_size }}</p>
+            <p>{{ user.preferred_foot }}</p>
+            <p><a href="/disapprove/{{ user.id }}">Desaprovar</a></p>
+        </div>
+        {% endfor %}
+    </main>
+</body>
+
+</html>
