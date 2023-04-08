@@ -65,4 +65,23 @@ CREATE TABLE goals (
     FOREIGN KEY (event_id) REFERENCES events(id) ON DELETE CASCADE
 );
 
+INSERT INTO usuarios (nome, email, senha, is_admin) 
+VALUES ('admin', 'admin@garravermelha.com.br', 'test', 1);
 
+INSERT INTO usuarios (nome, email, senha) 
+VALUES ('user1', 'usuario1@garravermelha.com.br', 'test');
+
+INSERT INTO usuarios (nome, email, senha) 
+VALUES ('user2', 'usuario2@garravermelha.com.br', 'test');
+
+
+CREATE DATABASE garra;
+USE garra;
+
+CREATE TABLE usuarios (
+    id INT(11) NOT NULL AUTO_INCREMENT,
+    nome VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL,
+    senha VARCHAR(100) NOT NULL,
+    PRIMARY KEY (id)
+);

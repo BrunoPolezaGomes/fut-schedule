@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block title %}Garra Vermelha - Home{% endblock %}
+
+{% block content %}
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <a classnavbar-brand" href="#">Garra Vermelha</a>
+<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+<span class="navbar-toggler-icon"></span>
+</button>
+<h1>Bem-vindo ao Garra Vermelha</h1>
+{% if session.logged_in %}
+<p>Olá, {{ session.email }}!</p>
+{% else %}
+<p>Para começar, faça login ou crie uma conta.</p>
+{% endif %}
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      <li class="nav-item active">
+        <a class="nav-link" href="#">Home</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Notícias</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Classificação</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Jogadores</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Técnico</a>
+      </li>
+    </ul>
+  </div>
+  <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
+    <ul class="navbar-nav ml-auto">
+      {% if session.logged_in %}
+      <li class="nav-item">
+        <a class="nav-link" href="{{ url_for('logout') }}">Sair</a>
+      </li>
+      {% else %}
+      <li class="nav-item">
+        <a class="nav-link" href="{{ url_for('login') }}">Login</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{{ url_for('criar_conta') }}">Criar conta</a>
+      </li>
+      {% endif %}
+    </ul>
+  </div>
+</nav>
+<div class="container mt-3">
+  <div class="row">
+    <div class="col-md-12">
+      <h1>Bem-vindo à Garra Vermelha!</h1>
+      <p>Acompanhe aqui as últimas notícias e a classificação do seu time de coração.</p>
+    </div>
+  </div>
+</div>
+{% endblock %}
