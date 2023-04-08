@@ -62,5 +62,5 @@ def criar_conta():
         return render_template('criar_conta.html')
 
 
-if name == 'main':
-    app.run(debug=True)
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port='80', debug=True)
