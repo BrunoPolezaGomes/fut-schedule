@@ -123,17 +123,20 @@ def register():
         return redirect(url_for('login'))
     return render_template('register.html', title='Register', form=form)
 
+# definir @login_required para que o usuário tenha que estar logado para acessar a página
 
 @app.route('/user/<username>')
-@login_required
 def user(username):
+    if current_user.is_authenticated:
+        return redirect(url_for('home'))
     user = User.query.filter_by(username=username).first_or_404()
     return render_template('user.html', user=user)
 
 
 @app.route('/edit_profile', methods=['GET', 'POST'])
-@login_required
 def edit_profile():
+    if current_user.is_authenticated:
+        return redirect(url_for('home'))
     form = EditProfileForm(current_user.username)
     if form.validate_on_submit():
         current_user.username = form.username.data
@@ -148,8 +151,9 @@ def edit_profile():
 
 
 @app.route('/follow/<username>')
-@login_required
 def follow(username):
+    if current_user.is_authenticated:
+        return redirect(url_for('home'))
     user = User.query.filter_by(username=username).first()
     if user is None:
         flash('User {} not found.'.format(username))
@@ -164,8 +168,9 @@ def follow(username):
 
 
 @app.route('/unfollow/<username>')
-@login_required
 def unfollow(username):
+    if current_user.is_authenticated:
+        return redirect(url_for('home'))
     user = User.query.filter_by(username=username).first()
     if user is None:
         flash('User {} not found.'.format(username))
@@ -180,9 +185,9 @@ def unfollow(username):
 
 
 @app.route('/edit-profile/<int:id>', methods=['GET', 'POST'])
-@login_required
-@admin_required
 def edit_profile_admin(id):
+    if current_user.is_authenticated:
+        return redirect(url_for('home'))
     user = User.query.get_or_404(id)
     form = EditProfileAdminForm(user=user)
     if form.validate_on_submit():
@@ -202,40 +207,15 @@ def edit_profile_admin(id):
     return render_template('edit_profile.html', form=form, user=user)
 
 
-@app.route('/admin')
-@login_required(role="admin")
-def admin():
-    users = User.query.all()
-    return render_template('admin.html', users=users)
-
-
-@app.route('/admin/delete/<int:id>', methods=['GET', 'POST'])
-@login_required(role="admin")
-def delete_user(id):
-    user = User.query.get_or_404(id)
-    db.session.delete(user)
-    db.session.commit()
-    flash('Usuário deletado com sucesso!', 'success')
-    return redirect(url_for('admin'))
-
-
-@app.route('/admin/update/<int:id>', methods=['GET', 'POST'])
-@login_required(role="admin")
-def update_user(id):
-    user = User.query.get_or_404(id)
-    form = UpdateUserForm()
-    if form.validate_on_submit():
-        user.name = form.name.data
-        user.email = form.email.data
-        user.role = form.role.data
-        db.session.commit()
-        flash('Usuário atualizado com sucesso!', 'success')
-        return redirect(url_for('admin'))
-    elif request.method == 'GET':
-        form.name.data = user.name
-        form.email.data = user.email
-        form.role.data = user.role
-    return render_template('update_user.html', form=form)
-
-
+@app.route('/explore')
+def explore():
+    if current_user.is_authenticated:
+        return redirect(url_for('home'))
+    page = request.args.get('page', 1, type=int)
+    posts = Post.query.order_by(Post.timestamp.desc()).paginate(
+        page, app.config['POSTS_PER_PAGE'], False)
+    next_url = url_for(
+        'explore', page=posts.next_num) if posts.has_next else None
+    prev_url = url_for('explore', page=posts.prev_num) if posts.has_prev else None
+    return render_template('index.html', title='Explore', posts=posts.items, next_url=next_url, prev_url=prev_url)
 
